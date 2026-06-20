@@ -20,7 +20,7 @@ const payload = {
     plan: "free",
     region: "singapore",
     envSpecificDetails: {
-      buildCommand: "npm ci && npm run build",
+      buildCommand: "npm ci --include=dev && npm run build",
       startCommand: "npm run start:render",
     },
     healthCheckPath: "/",
