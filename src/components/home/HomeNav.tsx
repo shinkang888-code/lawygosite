@@ -59,6 +59,7 @@ export function HomeNav() {
   const { activeTab, setTab } = useTab();
   const content = useSiteContent();
   const mobileTabListRef = useRef<HTMLDivElement>(null);
+  const liveLoginUrl = content.hero?.liveUrl ?? "https://lawygo.vercel.app/login";
 
   const tabs =
     content.navTabs?.length > 0
@@ -68,6 +69,10 @@ export function HomeNav() {
   const selectTab = (id: string) => {
     if (!isTabId(id)) return;
     setTab(id as TabId);
+  };
+
+  const openLiveLogin = () => {
+    window.open(liveLoginUrl, "_blank", "noopener,noreferrer");
   };
 
   useEffect(() => {
@@ -109,7 +114,7 @@ export function HomeNav() {
 
         <button
           type="button"
-          onClick={() => selectTab("pricing")}
+          onClick={openLiveLogin}
           className="shrink-0 px-3 py-1.5 text-xs font-medium text-white"
           style={{ backgroundColor: "#1a1a1a" }}
         >
@@ -159,7 +164,7 @@ export function HomeNav() {
 
         <button
           type="button"
-          onClick={() => selectTab("pricing")}
+          onClick={openLiveLogin}
           className="inline-flex shrink-0 items-center justify-center px-4 py-2 text-xs font-medium text-white transition-opacity hover:opacity-85 sm:text-sm"
           style={{ backgroundColor: "#1a1a1a" }}
         >

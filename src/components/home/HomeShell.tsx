@@ -16,7 +16,6 @@ import { ArchitectureSection } from "@/components/home/ArchitectureSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { PricingSection } from "@/components/home/PricingSection";
 import { FaqSection } from "@/components/home/FaqSection";
-import { CtaBanner } from "@/components/home/CtaBanner";
 import { HomeFooter } from "@/components/home/HomeFooter";
 
 function TabPanel({
@@ -110,7 +109,6 @@ export function HomeShell() {
               <TestimonialsSection />
               <FaqSection />
             </div>
-            <CtaBanner />
             <HomeFooter />
           </TabPanel>
         </main>

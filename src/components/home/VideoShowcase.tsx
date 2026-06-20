@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Pause, Play } from "lucide-react";
+import { ExternalLink, Pause, Play } from "lucide-react";
 import { useSiteContent } from "@/components/content/ContentContext";
 import { SectionShell } from "@/components/home/layout/SectionShell";
 
@@ -123,6 +123,16 @@ export function VideoShowcase() {
             {playing ? <Pause size={12} /> : <Play size={12} />}
             {playing ? "일시정지" : "재생"}
           </button>
+          <a
+            href={hero.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium"
+            style={{ backgroundColor: "#8b322c", color: "#ffffff" }}
+          >
+            <ExternalLink size={12} />
+            라이브 체험
+          </a>
         </div>
       </div>
 
@@ -156,27 +166,16 @@ export function VideoShowcase() {
             />
           )}
           <div
-            className="pointer-events-none absolute inset-0"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
             style={{
-              background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%)",
+              background: "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 100%)",
             }}
           />
-          <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
-            <div>
-              <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>
-                {chapter.time}
-              </p>
-              <p className="text-sm font-semibold md:text-base">{chapter.label}</p>
-            </div>
-            <a
-              href={hero.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pointer-events-auto shrink-0 rounded-full px-4 py-2 text-xs font-medium"
-              style={{ backgroundColor: "#8b322c", color: "#ffffff" }}
-            >
-              라이브 체험
-            </a>
+          <div className="pointer-events-none absolute bottom-3 left-3">
+            <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>
+              {chapter.time}
+            </p>
+            <p className="text-sm font-semibold md:text-base">{chapter.label}</p>
           </div>
         </div>
 

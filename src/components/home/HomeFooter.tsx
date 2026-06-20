@@ -11,9 +11,9 @@ function FooterLinkList({
   links: { label: string; href: string }[];
 }) {
   return (
-    <div>
+    <div className="min-w-0">
       <p
-        className="mb-2 text-[0.65rem] tracking-widest uppercase md:mb-4 md:text-xs"
+        className="mb-1.5 text-[0.65rem] tracking-widest uppercase md:mb-4 md:text-xs"
         style={{ color: "#9a9a9a" }}
       >
         {title}
@@ -23,7 +23,7 @@ function FooterLinkList({
           <li key={`${title}-${link.label}`}>
             <a
               href={link.href}
-              className="text-xs transition-colors hover:opacity-70 md:text-sm"
+              className="text-[11px] transition-colors hover:opacity-70 md:text-sm"
               style={{ color: "#6b6b6b" }}
             >
               {link.label}
@@ -41,16 +41,16 @@ export function HomeFooter() {
 
   return (
     <footer
-      className="py-10 md:py-16"
+      className="py-8 md:py-16"
       style={{
         backgroundColor: "#f2f0eb",
         color: "#1a1a1a",
         borderTop: "1px solid rgba(26,26,26,0.08)",
       }}
     >
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <div className="flex items-start gap-5 sm:gap-6 md:grid md:grid-cols-4 md:gap-12">
-          <div className="min-w-0 flex-1 md:col-span-2">
+      <div className="mx-auto max-w-6xl px-5 lg:px-8">
+        <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-4 md:grid-cols-4 md:gap-12">
+          <div className="col-span-2 min-w-0 md:col-span-2">
             <div className="mb-2 flex items-center gap-2 md:mb-4 md:gap-3">
               <Image
                 src="/brand/lawygo-icon.png"
@@ -67,12 +67,12 @@ export function HomeFooter() {
               </span>
             </div>
             <p
-              className="text-xs leading-snug md:mb-1 md:text-sm"
+              className="text-[11px] leading-snug md:mb-1 md:text-sm"
               style={{ color: "#6b6b6b" }}
             >
               {footer.address}
             </p>
-            <p className="mt-2 text-xs md:mt-0 md:mb-4" style={{ color: "#9a9a9a" }}>
+            <p className="mt-1.5 text-[11px] md:mt-0 md:mb-4 md:text-xs" style={{ color: "#9a9a9a" }}>
               © {year} LawyGo
             </p>
             <p
@@ -89,14 +89,12 @@ export function HomeFooter() {
             </p>
           </div>
 
-          <div className="flex min-w-0 flex-1 flex-col gap-4 md:contents">
-            <FooterLinkList title="Product" links={footer.product} />
-            <FooterLinkList title="Support" links={footer.support} />
-          </div>
+          <FooterLinkList title="Product" links={footer.product} />
+          <FooterLinkList title="Support" links={footer.support} />
         </div>
 
         <p
-          className="mt-6 text-xs leading-relaxed md:hidden"
+          className="mt-5 text-[11px] leading-relaxed md:hidden"
           style={{ color: "#9a9a9a" }}
         >
           {footer.disclaimer}
