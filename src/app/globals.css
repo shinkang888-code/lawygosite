@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/* ── Design Tokens (직접 hex — Tailwind v4 순환참조 방지) ── */
+@theme {
+  --color-paper: #f2f0eb;
+  --color-paper-warm: #ebe6dd;
+  --color-paper-light: #f7f5f2;
+  --color-ink: #1a1a1a;
+  --color-ink-muted: #6b6b6b;
+  --color-ink-subtle: #9a9a9a;
+  --color-accent: #8b322c;
+  --color-accent-hover: #6f2823;
+  --color-surface-dark: #1c1b19;
+  --color-card: #ffffff;
+  --font-serif: var(--font-playfair), "Playfair Display", Georgia, serif;
+}
+
+/* ── Base ── */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  background-color: #f2f0eb;
+  color: #1a1a1a;
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(139, 50, 44, 0.15);
+  color: #1a1a1a;
+}
+
+/* ── Typography ── */
+.font-serif {
+  font-family: var(--font-playfair), "Playfair Display", Georgia, serif;
+}
+
+.legal-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8b322c;
+}
+
+.legal-divider {
+  border-top: 1px solid rgba(26, 26, 26, 0.12);
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #8b322c;
+  color: #ffffff;
+  padding: 0.875rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.25s ease;
+}
+
+.btn-primary:hover {
+  background-color: #6f2823;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  padding: 0.875rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.btn-secondary:hover {
+  border-color: #1a1a1a;
+}
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: opacity 0.25s ease;
+}
+
+.btn-dark:hover {
+  opacity: 0.85;
+}
+
+/* ── Card (흰 배경 위 텍스트 색상 강제 고정) ── */
+.legal-card {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid rgba(26, 26, 26, 0.1);
+}
+
+.legal-card-muted {
+  color: #6b6b6b;
+}
+
+.legal-card-accent {
+  color: #8b322c;
+}
+
+.legal-section-paper {
+  background-color: #f2f0eb;
+  color: #1a1a1a;
+}
+
+.legal-section-light {
+  background-color: #f7f5f2;
+  color: #1a1a1a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-\[kenburns_20s_ease-in-out_infinite_alternate\] {
+    animation: none;
+  }
+
+  .animate-\[fadeIn_0\.35s_ease-out\] {
+    animation: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+/* ── Admin CMS ── */
+.admin-input {
+  border: 1px solid rgba(26, 26, 26, 0.15);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  background: #fff;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.admin-input:focus {
+  border-color: #8b322c;
+  box-shadow: 0 0 0 3px rgba(139, 50, 44, 0.12);
+}
+
+.admin-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #8b322c;
+  color: #fff;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+
+.admin-btn-primary:hover:not(:disabled) {
+  background-color: #6f2823;
+}
+
+.admin-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #fff;
+  color: #1a1a1a;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  border: 1px solid rgba(26, 26, 26, 0.15);
+  cursor: pointer;
+}
+
+.admin-btn-secondary:hover:not(:disabled) {
+  background: #f7f5f2;
+}
+
+.admin-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  cursor: pointer;
+}
+
+.admin-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
