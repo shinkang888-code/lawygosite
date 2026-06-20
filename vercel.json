@@ -1,0 +1,10 @@
+{
+  "experimentalServices": {
+    "lawygosite": {
+      "type": "web",
+      "routePrefix": "/",
+      "framework": "nextjs",
+      "buildCommand": "npm ci --include=dev && npm run build"
+    }
+  }
+}
