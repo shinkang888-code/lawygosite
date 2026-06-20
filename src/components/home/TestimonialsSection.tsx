@@ -1,54 +1,52 @@
 "use client";
 
 import { useSiteContent } from "@/components/content/ContentContext";
+import { SectionShell } from "@/components/home/layout/SectionShell";
 
 export function TestimonialsSection() {
   const { testimonials } = useSiteContent();
 
   return (
-    <section
-      className="py-24 md:py-32"
-      style={{ backgroundColor: "#f2f0eb", color: "#1a1a1a" }}
-    >
-      <div className="mx-auto max-w-4xl px-6 text-center lg:px-8">
+    <SectionShell variant="paper" noPadding className="py-8 md:py-10">
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-8">
         <div
-          className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full text-xl font-serif"
-          style={{ backgroundColor: "#ebe6dd", color: "#8b322c" }}
+          className="rounded-xl p-5 md:p-6"
+          style={{
+            backgroundColor: "#ffffff",
+            border: "1px solid rgba(26,26,26,0.08)",
+          }}
         >
-          &ldquo;
+          <p className="legal-label mb-3">Testimonials</p>
+          <blockquote className="font-serif mb-4 text-lg leading-relaxed font-medium md:text-xl">
+            &ldquo;{testimonials.featured.quote}&rdquo;
+          </blockquote>
+          <p className="text-sm font-semibold">{testimonials.featured.name}</p>
+          <p className="text-xs" style={{ color: "#6b6b6b" }}>
+            {testimonials.featured.role}
+          </p>
         </div>
-        <blockquote
-          className="font-serif mb-8 text-2xl leading-relaxed font-medium md:text-3xl"
-          style={{ color: "#1a1a1a" }}
-        >
-          {testimonials.featured.quote}
-        </blockquote>
-        <p className="text-sm font-semibold">{testimonials.featured.name}</p>
-        <p className="text-sm" style={{ color: "#6b6b6b" }}>
-          {testimonials.featured.role}
-        </p>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
           {testimonials.secondary.map((t) => (
             <div
               key={t.name}
-              className="rounded-xl p-6 text-left"
+              className="rounded-xl p-4"
               style={{
                 backgroundColor: "#ffffff",
                 border: "1px solid rgba(26,26,26,0.08)",
               }}
             >
-              <p className="mb-4 text-sm leading-relaxed" style={{ color: "#6b6b6b" }}>
+              <p className="mb-3 text-xs leading-relaxed" style={{ color: "#6b6b6b" }}>
                 &ldquo;{t.quote}&rdquo;
               </p>
-              <p className="text-sm font-semibold">{t.name}</p>
-              <p className="text-xs" style={{ color: "#9a9a9a" }}>
+              <p className="text-xs font-semibold">{t.name}</p>
+              <p className="text-[11px]" style={{ color: "#9a9a9a" }}>
                 {t.role}
               </p>
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </SectionShell>
   );
 }

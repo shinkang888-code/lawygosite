@@ -15,7 +15,6 @@ import { ModuleGrid } from "@/components/home/ModuleGrid";
 import { ArchitectureSection } from "@/components/home/ArchitectureSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { PricingSection } from "@/components/home/PricingSection";
-import { SecuritySection } from "@/components/home/SecuritySection";
 import { FaqSection } from "@/components/home/FaqSection";
 import { CtaBanner } from "@/components/home/CtaBanner";
 import { HomeFooter } from "@/components/home/HomeFooter";
@@ -99,14 +98,18 @@ export function HomeShell() {
 
           <TabPanel id="architecture" activeTab={activeTab}>
             <ArchitectureSection />
-            <SecuritySection />
             <HomeFooter />
           </TabPanel>
 
           <TabPanel id="pricing" activeTab={activeTab}>
             <PricingSection />
-            <TestimonialsSection />
-            <FaqSection />
+            <div
+              className="grid lg:grid-cols-2"
+              style={{ backgroundColor: "#f2f0eb" }}
+            >
+              <TestimonialsSection />
+              <FaqSection />
+            </div>
             <CtaBanner />
             <HomeFooter />
           </TabPanel>

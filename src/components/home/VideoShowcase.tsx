@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Pause, Play } from "lucide-react";
 import { useSiteContent } from "@/components/content/ContentContext";
+import { SectionShell } from "@/components/home/layout/SectionShell";
 
 function parseChapterTime(time: string) {
   const [min, sec] = time.split(":").map(Number);
@@ -75,74 +76,59 @@ export function VideoShowcase() {
   };
 
   return (
-    <section
-      id="video"
-      className="flex min-h-[calc(100vh-4rem)] flex-col justify-center py-16 md:py-20"
-      style={{ backgroundColor: "#1c1b19", color: "#ffffff" }}
-    >
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div>
-            <p
-              className="mb-3 text-xs tracking-[0.2em] uppercase"
-              style={{ color: "#c9a962" }}
-            >
-              Platform Walkthrough
-            </p>
-            <h2 className="font-serif text-3xl font-semibold md:text-4xl">
-              42단계 IR 데모 시연 영상
-            </h2>
-            <p className="mt-3 max-w-xl text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>
-              LawyGo 프로덕션 빌드 실제 화면 녹화. 대시보드·사건·법률백과·전자결재까지
-              송무 전 과정을 확인하세요.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setUseVideo(true)}
-              className="rounded-full px-4 py-2 text-sm"
-              style={{
-                backgroundColor: useVideo ? "rgba(201,169,98,0.2)" : "transparent",
-                border: "1px solid rgba(255,255,255,0.2)",
-                color: "#ffffff",
-              }}
-            >
-              데모 영상
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setUseVideo(false);
-                setPlaying(true);
-                videoRef.current?.pause();
-              }}
-              className="rounded-full px-4 py-2 text-sm"
-              style={{
-                backgroundColor: !useVideo ? "rgba(201,169,98,0.2)" : "transparent",
-                border: "1px solid rgba(255,255,255,0.2)",
-                color: "#ffffff",
-              }}
-            >
-              제품 스크린샷
-            </button>
-            <button
-              type="button"
-              onClick={togglePlayback}
-              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm"
-              style={{
-                border: "1px solid rgba(255,255,255,0.2)",
-                color: "#ffffff",
-              }}
-            >
-              {playing ? <Pause size={14} /> : <Play size={14} />}
-              {playing ? "일시정지" : "재생"}
-            </button>
-          </div>
+    <SectionShell id="video" variant="dark" className="py-10 md:py-12">
+      <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <p className="mb-2 text-xs tracking-[0.2em] uppercase" style={{ color: "#c9a962" }}>
+            Platform Walkthrough
+          </p>
+          <h2 className="font-serif text-2xl font-semibold md:text-3xl">42단계 IR 데모 시연</h2>
+          <p className="mt-2 max-w-lg text-xs md:text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>
+            대시보드·사건·법률백과·전자결재까지 송무 전 과정을 확인하세요.
+          </p>
         </div>
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setUseVideo(true)}
+            className="rounded-full px-3 py-1.5 text-xs"
+            style={{
+              backgroundColor: useVideo ? "rgba(201,169,98,0.2)" : "transparent",
+              border: "1px solid rgba(255,255,255,0.2)",
+            }}
+          >
+            데모 영상
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setUseVideo(false);
+              setPlaying(true);
+              videoRef.current?.pause();
+            }}
+            className="rounded-full px-3 py-1.5 text-xs"
+            style={{
+              backgroundColor: !useVideo ? "rgba(201,169,98,0.2)" : "transparent",
+              border: "1px solid rgba(255,255,255,0.2)",
+            }}
+          >
+            스크린샷
+          </button>
+          <button
+            type="button"
+            onClick={togglePlayback}
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs"
+            style={{ border: "1px solid rgba(255,255,255,0.2)" }}
+          >
+            {playing ? <Pause size={12} /> : <Play size={12} />}
+            {playing ? "일시정지" : "재생"}
+          </button>
+        </div>
+      </div>
 
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
         <div
-          className="relative mb-6 overflow-hidden rounded-xl"
+          className="relative overflow-hidden rounded-xl"
           style={{ aspectRatio: "16/9", backgroundColor: "#0a0a0a" }}
         >
           {useVideo ? (
@@ -165,63 +151,59 @@ export function VideoShowcase() {
               alt={chapter.label}
               fill
               className="object-cover object-top transition-opacity duration-700"
-              sizes="(max-width: 1200px) 100vw, 1152px"
+              sizes="(max-width: 1024px) 100vw, 800px"
               priority={activeIndex === 0}
             />
           )}
           <div
-            className="absolute inset-0 pointer-events-none"
+            className="pointer-events-none absolute inset-0"
             style={{
-              background:
-                "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 45%)",
+              background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 40%)",
             }}
           />
-          <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+          <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
             <div>
-              <p className="text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
+              <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.6)" }}>
                 {chapter.time}
               </p>
-              <p className="text-lg font-semibold">{chapter.label}</p>
+              <p className="text-sm font-semibold md:text-base">{chapter.label}</p>
             </div>
             <a
               href={hero.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="pointer-events-auto rounded-full px-5 py-2.5 text-sm font-medium"
+              className="pointer-events-auto shrink-0 rounded-full px-4 py-2 text-xs font-medium"
               style={{ backgroundColor: "#8b322c", color: "#ffffff" }}
             >
-              라이브에서 체험
+              라이브 체험
             </a>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        <div className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible">
           {videoChapters.map((ch, i) => (
             <button
               key={ch.id}
               type="button"
               onClick={() => jumpToChapter(i)}
-              className="rounded-lg p-4 text-left transition-all"
+              className="min-w-[140px] shrink-0 rounded-lg p-3 text-left transition-all lg:min-w-0"
               style={{
                 backgroundColor:
-                  activeIndex === i
-                    ? "rgba(201,169,98,0.15)"
-                    : "rgba(255,255,255,0.04)",
+                  activeIndex === i ? "rgba(201,169,98,0.15)" : "rgba(255,255,255,0.04)",
                 border:
                   activeIndex === i
                     ? "1px solid rgba(201,169,98,0.4)"
                     : "1px solid rgba(255,255,255,0.08)",
-                color: "#ffffff",
               }}
             >
               <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.45)" }}>
                 {ch.time}
               </p>
-              <p className="text-sm font-medium">{ch.label}</p>
+              <p className="text-xs font-medium md:text-sm">{ch.label}</p>
             </button>
           ))}
         </div>
       </div>
-    </section>
+    </SectionShell>
   );
 }

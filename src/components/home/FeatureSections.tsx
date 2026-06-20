@@ -1,82 +1,77 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { useSiteContent } from "@/components/content/ContentContext";
-
-const INK = "#1a1a1a";
-const INK_MUTED = "#6b6b6b";
-const ACCENT = "#8b322c";
-const PAPER = "#f2f0eb";
+import { SectionHeader } from "@/components/home/layout/SectionHeader";
+import { SectionShell } from "@/components/home/layout/SectionShell";
 
 export function FeatureSections() {
   const { features } = useSiteContent();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const feature = features[activeIndex] ?? features[0];
+
+  if (!feature) return null;
 
   return (
-    <section
-      id="features"
-      className="py-24 md:py-32"
-      style={{ backgroundColor: PAPER, color: INK }}
-    >
-      <div className="mx-auto max-w-6xl px-6 lg:px-8">
-        <div className="flex flex-col gap-28 md:gap-36">
-          {features.map((feature) => (
-            <article
-              key={feature.id}
-              className={`grid items-center gap-12 lg:grid-cols-2 lg:gap-20 ${
-                feature.reverse ? "lg:[&>*:first-child]:order-2" : ""
-              }`}
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <Image
-                  src={feature.image}
-                  alt={feature.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </div>
+    <SectionShell id="features" variant="light" noPadding className="py-8 md:py-10">
+      <SectionHeader label="Core Features" title="송무 실무 핵심 기능" />
 
-              <div style={{ color: INK }}>
-                <p className="legal-label mb-4">{feature.archive}</p>
-                <h2
-                  className="font-serif mb-6 text-3xl leading-tight font-semibold tracking-tight whitespace-pre-line md:text-4xl lg:text-[2.75rem]"
-                  style={{ color: INK }}
-                >
-                  {feature.title}
-                </h2>
-                <p
-                  className="mb-8 text-base leading-relaxed"
-                  style={{ color: INK_MUTED }}
-                >
-                  {feature.description}
-                </p>
-                <ul>
-                  {feature.points.map((point, i) => (
-                    <li
-                      key={point}
-                      className="flex gap-4 py-4"
-                      style={{
-                        color: INK,
-                        borderTop:
-                          i === 0 ? "1px solid rgba(26,26,26,0.08)" : undefined,
-                        borderBottom: "1px solid rgba(26,26,26,0.08)",
-                      }}
-                    >
-                      <span
-                        className="text-sm font-medium"
-                        style={{ color: ACCENT }}
-                      >
-                        [{String(i + 1).padStart(2, "0")}]
-                      </span>
-                      <span className="text-sm">{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          ))}
-        </div>
+      <div className="mb-4 flex flex-wrap gap-2">
+        {features.map((f, i) => (
+          <button
+            key={f.id}
+            type="button"
+            onClick={() => setActiveIndex(i)}
+            className="rounded-full px-3 py-1.5 text-xs font-medium transition-colors md:text-sm"
+            style={{
+              backgroundColor: activeIndex === i ? "#8b322c" : "#ffffff",
+              color: activeIndex === i ? "#ffffff" : "#6b6b6b",
+              border: "1px solid rgba(26,26,26,0.1)",
+            }}
+          >
+            {f.archive}
+          </button>
+        ))}
       </div>
-    </section>
+
+      <article className="grid items-center gap-5 lg:grid-cols-2 lg:gap-8">
+        <div className="relative aspect-[16/10] max-h-[280px] overflow-hidden rounded-lg lg:max-h-none">
+          <Image
+            src={feature.image}
+            alt={feature.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </div>
+
+        <div>
+          <h3 className="font-serif mb-3 text-xl font-semibold whitespace-pre-line md:text-2xl">
+            {feature.title}
+          </h3>
+          <p className="mb-4 text-sm leading-relaxed" style={{ color: "#6b6b6b" }}>
+            {feature.description}
+          </p>
+          <ul className="grid gap-2 sm:grid-cols-1">
+            {feature.points.map((point, i) => (
+              <li
+                key={point}
+                className="flex gap-3 rounded-lg px-3 py-2.5 text-sm"
+                style={{
+                  backgroundColor: "#ffffff",
+                  border: "1px solid rgba(26,26,26,0.08)",
+                }}
+              >
+                <span className="font-medium" style={{ color: "#8b322c" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </article>
+    </SectionShell>
   );
 }
