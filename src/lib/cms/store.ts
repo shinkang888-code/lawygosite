@@ -3,13 +3,19 @@ import path from "path";
 import type { AdminAccount, ContentOverrides } from "@/lib/cms/types";
 import { getDefaultContent } from "@/lib/cms/defaults";
 import { mergeContent } from "@/lib/cms/merge";
+import {
+  readAdminFromSupabase,
+  readOverridesFromSupabase,
+  resetOverridesInSupabase,
+  writeAdminToSupabase,
+  writeOverridesToSupabase,
+} from "@/lib/cms/supabase-backend";
 import { CMS_STORAGE_BUCKET, getSupabaseAdmin, isSupabaseEnabled } from "@/lib/supabase/admin";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 const CONTENT_PATH = path.join(DATA_DIR, "cms-content.json");
 const ADMIN_PATH = path.join(DATA_DIR, "cms-admin.json");
 const HISTORY_DIR = path.join(DATA_DIR, "history");
-const CMS_ROW_ID = "main";
 
 function ensureDataDir() {
   fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -43,20 +49,8 @@ function writeOverridesFile(overrides: ContentOverrides) {
   fs.writeFileSync(CONTENT_PATH, JSON.stringify(overrides, null, 2), "utf8");
 }
 
-async function readOverridesSupabase(): Promise<ContentOverrides> {
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return {};
-  const { data, error } = await supabase
-    .from("lawygosite_cms_content")
-    .select("overrides")
-    .eq("id", CMS_ROW_ID)
-    .maybeSingle();
-  if (error || !data) return {};
-  return (data.overrides ?? {}) as ContentOverrides;
-}
-
 export async function readOverrides(): Promise<ContentOverrides> {
-  if (isSupabaseEnabled()) return readOverridesSupabase();
+  if (isSupabaseEnabled()) return readOverridesFromSupabase();
   return readOverridesFile();
 }
 
@@ -76,35 +70,7 @@ export async function writeOverrides(
   };
 
   if (isSupabaseEnabled()) {
-    const supabase = getSupabaseAdmin()!;
-    const { data: existing } = await supabase
-      .from("lawygosite_cms_content")
-      .select("overrides")
-      .eq("id", CMS_ROW_ID)
-      .maybeSingle();
-
-    if (existing?.overrides) {
-      await supabase.from("lawygosite_cms_history").insert({
-        snapshot: existing.overrides,
-      });
-      const { data: oldRows } = await supabase
-        .from("lawygosite_cms_history")
-        .select("id")
-        .order("created_at", { ascending: false });
-      if (oldRows && oldRows.length > 20) {
-        const toDelete = oldRows.slice(20).map((r) => r.id);
-        await supabase.from("lawygosite_cms_history").delete().in("id", toDelete);
-      }
-    }
-
-    const { error } = await supabase.from("lawygosite_cms_content").upsert({
-      id: CMS_ROW_ID,
-      overrides: next,
-      version,
-      updated_at: new Date().toISOString(),
-      updated_by: updatedBy,
-    });
-    if (error) throw new Error(error.message);
+    await writeOverridesToSupabase(next, updatedBy, version);
     return next;
   }
 
@@ -114,18 +80,7 @@ export async function writeOverrides(
 
 export async function resetOverrides(): Promise<void> {
   if (isSupabaseEnabled()) {
-    const supabase = getSupabaseAdmin()!;
-    const { data: existing } = await supabase
-      .from("lawygosite_cms_content")
-      .select("overrides")
-      .eq("id", CMS_ROW_ID)
-      .maybeSingle();
-    if (existing?.overrides) {
-      await supabase.from("lawygosite_cms_history").insert({
-        snapshot: existing.overrides,
-      });
-    }
-    await supabase.from("lawygosite_cms_content").delete().eq("id", CMS_ROW_ID);
+    await resetOverridesInSupabase();
     return;
   }
 
@@ -143,25 +98,8 @@ export async function getSiteContent() {
   return mergeContent(defaults, overrides);
 }
 
-async function readAdminAccountSupabase(): Promise<AdminAccount | null> {
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return null;
-  const { data, error } = await supabase
-    .from("lawygosite_cms_admin")
-    .select("username,salt,hash,created_at")
-    .limit(1)
-    .maybeSingle();
-  if (error || !data) return null;
-  return {
-    username: data.username,
-    salt: data.salt,
-    hash: data.hash,
-    createdAt: data.created_at ?? new Date().toISOString(),
-  };
-}
-
 export async function readAdminAccount(): Promise<AdminAccount | null> {
-  if (isSupabaseEnabled()) return readAdminAccountSupabase();
+  if (isSupabaseEnabled()) return readAdminFromSupabase();
 
   ensureDataDir();
   if (!fs.existsSync(ADMIN_PATH)) return null;
@@ -174,14 +112,7 @@ export async function readAdminAccount(): Promise<AdminAccount | null> {
 
 export async function writeAdminAccount(account: AdminAccount) {
   if (isSupabaseEnabled()) {
-    const supabase = getSupabaseAdmin()!;
-    const { error } = await supabase.from("lawygosite_cms_admin").upsert({
-      username: account.username,
-      salt: account.salt,
-      hash: account.hash,
-      created_at: account.createdAt,
-    });
-    if (error) throw new Error(error.message);
+    await writeAdminToSupabase(account);
     return;
   }
 

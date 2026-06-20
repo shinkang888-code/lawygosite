@@ -36,10 +36,16 @@ if (!url || !key) {
 const sb = createClient(url, key, { auth: { persistSession: false } });
 const { error } = await sb.from("lawygosite_cms_content").select("id").limit(1);
 if (error?.code === "PGRST205") {
-  console.error(
-    "CMS 테이블이 없습니다. 먼저 실행하세요:\n  supabase login\n  supabase link --project-ref tvyktmwubzsfyfayhark\n  npm run db:push"
-  );
-  process.exit(1);
+  const { error: settingsErr } = await sb
+    .from("app_settings")
+    .select("key")
+    .limit(1);
+  if (settingsErr) {
+    console.error("Supabase CMS 연결 실패:", settingsErr.message);
+    process.exit(1);
+  }
+  console.log("Supabase CMS 준비 완료 (app_settings 백엔드)");
+  process.exit(0);
 }
 
 console.log("Supabase CMS 테이블 확인 완료");
