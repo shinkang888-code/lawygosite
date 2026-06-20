@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { isTabId, type TabId } from "@/lib/navTabs";
 import { TabProvider } from "@/components/home/TabContext";
-import { HomeNav } from "@/components/home/HomeNav";
+import { HomeNav, HOME_NAV_OFFSET_CLASS } from "@/components/home/HomeNav";
 import { HeroCinematic } from "@/components/home/HeroCinematic";
 import { ProofMetrics } from "@/components/home/ProofMetrics";
 import { PlatformEcosystem } from "@/components/home/PlatformEcosystem";
@@ -71,7 +71,7 @@ export function HomeShell() {
         style={{ backgroundColor: "#f2f0eb", color: "#1a1a1a" }}
       >
         <HomeNav />
-        <main className="flex-1 pt-16 lg:pt-[4.5rem]">
+        <main className={`flex-1 ${HOME_NAV_OFFSET_CLASS}`}>
           <TabPanel id="home" activeTab={activeTab}>
             <HeroCinematic />
             <ProofMetrics />
