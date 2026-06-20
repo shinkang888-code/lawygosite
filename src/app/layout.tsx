@@ -9,7 +9,11 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://lawygosite.onrender.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "LAWYGO — 송무관리 프로그램",
   description:
     "진행 중인 모든 사건의 기일·불변기한·결재·자료를 놓치지 않고 추적합니다. 이제 LawyGo에게 맡겨보세요.",
@@ -28,9 +32,27 @@ export const metadata: Metadata = {
     apple: [{ url: "/brand/lawygo-icon.png", type: "image/png" }],
   },
   openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: SITE_URL,
+    siteName: "LawyGo",
     title: "LAWYGO — 송무관리 프로그램",
     description: "사건 수임은 끝이 아닌 시작입니다.",
-    type: "website",
+    images: [
+      {
+        url: "/og/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "LawyGo — 사건 수임은 끝이 아닌 시작입니다",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LAWYGO — 송무관리 프로그램",
+    description: "사건 수임은 끝이 아닌 시작입니다.",
+    images: ["/og/og-image.png"],
   },
 };
 
