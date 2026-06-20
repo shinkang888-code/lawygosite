@@ -10,6 +10,8 @@ type Props = {
   onChange: (url: string) => void;
   kind?: "image" | "video";
   hint?: string;
+  /** e.g. "16/10" — 미리보기 비율을 사이트 표시와 동일하게 */
+  previewAspect?: string;
 };
 
 export function MediaUploadField({
@@ -18,6 +20,7 @@ export function MediaUploadField({
   onChange,
   kind = "image",
   hint,
+  previewAspect,
 }: Props) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -90,10 +93,13 @@ export function MediaUploadField({
       )}
       {value && kind === "image" && (
         <div
-          className="relative mt-2 h-36 w-full max-w-md overflow-hidden rounded-lg border"
-          style={{ borderColor: "rgba(26,26,26,0.12)" }}
+          className="relative mt-2 w-full max-w-md overflow-hidden rounded-lg border"
+          style={{
+            borderColor: "rgba(26,26,26,0.12)",
+            aspectRatio: previewAspect ?? "16/9",
+          }}
         >
-          <Image src={value} alt="" fill className="object-cover" sizes="400px" />
+          <Image src={value} alt="" fill className="object-cover object-center" sizes="400px" />
         </div>
       )}
       {value && kind === "video" && (

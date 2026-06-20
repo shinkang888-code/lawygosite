@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { CMS_SECTIONS, type CmsSectionId, type SiteContent } from "@/lib/cms/types";
 import { getDefaultContent } from "@/lib/cms/defaults";
+import { FEATURE_TAB_IMAGE, FEATURE_TAB_IMAGE_HINT } from "@/lib/cms/imageSpecs";
 import { MediaUploadField, TextField } from "@/components/admin/MediaUploadField";
 
 type Toast = { type: "ok" | "err"; message: string } | null;
@@ -355,13 +356,41 @@ function SectionEditor({
     case "features":
       return (
         <>
+          <div
+            className="space-y-2 rounded-lg border p-4 text-sm leading-relaxed"
+            style={{ borderColor: "rgba(139,50,44,0.2)", background: "rgba(139,50,44,0.05)" }}
+          >
+            <p className="font-medium" style={{ color: "#8b322c" }}>
+              플랫폼 탭 · CORE FEATURES 이미지
+            </p>
+            <p style={{ color: "#4a4a4a" }}>
+              「01. Case Management」「02. Deadline Tracking」탭을 눌렀을 때 오른쪽에 보이는
+              사진 2장입니다. 두 이미지는{" "}
+              <strong>
+                {FEATURE_TAB_IMAGE.width} × {FEATURE_TAB_IMAGE.height}px ({FEATURE_TAB_IMAGE.ratio})
+              </strong>
+              로 동일한 비율로 업로드해야 탭 전환 시 크기가 맞습니다.
+            </p>
+            <p className="text-xs" style={{ color: "#6b6b6b" }}>
+              {FEATURE_TAB_IMAGE_HINT}
+            </p>
+          </div>
           {draft.features.map((f, i) => (
-            <div key={f.id} className="space-y-2 rounded-lg border p-4" style={{ borderColor: "rgba(26,26,26,0.08)" }}>
-              <TextField label="아카이브" value={f.archive} onChange={(v) => patch((d) => { d.features[i].archive = v; })} />
+            <div key={f.id} className="space-y-3 rounded-lg border p-4" style={{ borderColor: "rgba(26,26,26,0.08)" }}>
+              <p className="text-sm font-semibold" style={{ color: "#1a1a1a" }}>
+                {f.archive}
+              </p>
+              <MediaUploadField
+                label={`${f.archive} 탭 이미지`}
+                value={f.image}
+                onChange={(v) => patch((d) => { d.features[i].image = v; })}
+                hint={FEATURE_TAB_IMAGE_HINT}
+                previewAspect="16/10"
+              />
               <TextField label="제목" value={f.title} onChange={(v) => patch((d) => { d.features[i].title = v; })} multiline rows={2} />
               <TextField label="설명" value={f.description} onChange={(v) => patch((d) => { d.features[i].description = v; })} multiline rows={4} />
               <TextField label="포인트 (줄바꿈 구분)" value={f.points.join("\n")} onChange={(v) => patch((d) => { d.features[i].points = v.split("\n").filter(Boolean); })} multiline rows={4} />
-              <MediaUploadField label="배너 이미지" value={f.image} onChange={(v) => patch((d) => { d.features[i].image = v; })} />
+              <TextField label="아카이브 라벨" value={f.archive} onChange={(v) => patch((d) => { d.features[i].archive = v; })} />
             </div>
           ))}
         </>

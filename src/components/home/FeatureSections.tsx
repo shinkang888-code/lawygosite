@@ -35,13 +35,16 @@ export function FeatureSections() {
         ))}
       </div>
 
-      <article className="grid items-center gap-5 lg:grid-cols-2 lg:gap-8">
-        <div className="relative aspect-[16/10] max-h-[280px] overflow-hidden rounded-lg lg:max-h-none">
+      <article className="grid items-start gap-5 lg:grid-cols-2 lg:gap-8">
+        <div
+          className="relative w-full overflow-hidden rounded-lg"
+          style={{ aspectRatio: "16 / 10" }}
+        >
           <Image
             src={feature.image}
             alt={feature.title}
             fill
-            className="object-cover"
+            className="object-cover object-center"
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </div>
