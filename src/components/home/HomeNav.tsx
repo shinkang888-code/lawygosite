@@ -26,7 +26,7 @@ export function HomeNav() {
         borderBottom: "1px solid rgba(26,26,26,0.08)",
       }}
     >
-      <nav className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 lg:h-[4.5rem] lg:px-8">
+      <nav className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 lg:h-[4.5rem] lg:gap-3 lg:px-8">
         <button
           type="button"
           onClick={() => selectTab("home")}
@@ -40,7 +40,7 @@ export function HomeNav() {
             className="rounded-lg"
           />
           <span
-            className="font-serif text-lg font-bold tracking-[0.12em]"
+            className="hidden font-serif text-lg font-bold tracking-[0.12em] sm:inline"
             style={{ color: "#1a1a1a" }}
           >
             {content.brand.name}
@@ -48,7 +48,7 @@ export function HomeNav() {
         </button>
 
         <div
-          className="ml-auto hidden items-center gap-1 md:flex"
+          className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 overflow-x-auto lg:flex"
           role="tablist"
           aria-label="메인 메뉴"
         >
@@ -63,7 +63,7 @@ export function HomeNav() {
                 aria-selected={isActive}
                 aria-controls={`panel-${tab.id}`}
                 onClick={() => selectTab(tab.id)}
-                className="relative rounded-full px-4 py-2 text-sm transition-colors"
+                className="relative shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-sm transition-colors xl:px-4"
                 style={{
                   color: isActive ? "#1a1a1a" : "#6b6b6b",
                   fontWeight: isActive ? 600 : 400,
@@ -79,14 +79,14 @@ export function HomeNav() {
         <button
           type="button"
           onClick={() => selectTab("pricing")}
-          className="btn-dark hidden shrink-0 md:inline-flex"
+          className="btn-dark ml-auto hidden shrink-0 lg:ml-0 lg:inline-flex"
         >
           시작하기
         </button>
 
         <button
           type="button"
-          className="ml-auto inline-flex rounded-lg p-2 md:hidden"
+          className="ml-auto inline-flex shrink-0 rounded-lg p-2 lg:hidden"
           style={{ color: "#1a1a1a" }}
           onClick={() => setMobileOpen((o) => !o)}
           aria-label="메뉴 열기"
@@ -97,7 +97,7 @@ export function HomeNav() {
 
       {mobileOpen && (
         <div
-          className="border-t px-4 py-3 md:hidden"
+          className="border-t px-4 py-3 lg:hidden"
           style={{
             backgroundColor: "rgba(242, 240, 235, 0.98)",
             borderColor: "rgba(26,26,26,0.08)",

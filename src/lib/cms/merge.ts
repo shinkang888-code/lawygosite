@@ -32,9 +32,26 @@ export function deepMerge<T>(base: T, patch: Partial<T> | ContentOverrides): T {
   return result as T;
 }
 
+function normalizeNavTabs(
+  defaults: SiteContent,
+  merged: SiteContent
+): SiteContent {
+  const tabs = merged.navTabs;
+  if (!Array.isArray(tabs) || tabs.length === 0) {
+    return { ...merged, navTabs: defaults.navTabs.map((t) => ({ ...t })) };
+  }
+  return {
+    ...merged,
+    navTabs: tabs.map((tab, i) => ({
+      id: tab.id || defaults.navTabs[i]?.id || "home",
+      label: tab.label?.trim() || defaults.navTabs[i]?.label || tab.id,
+    })),
+  };
+}
+
 export function mergeContent(
   defaults: SiteContent,
   overrides: ContentOverrides
 ): SiteContent {
-  return deepMerge(defaults, overrides);
+  return normalizeNavTabs(defaults, deepMerge(defaults, overrides));
 }
